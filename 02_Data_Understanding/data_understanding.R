@@ -59,18 +59,21 @@ train_raw_tbl %>%
 # Step 2: Data Visualization ----
 
 train_raw_tbl %>%
-    select(Attrition, Age, Gender, MaritalStatus, NumCompaniesWorked, Over18, DistanceFromHome) %>%
+    select(Attrition, Age, Gender, MaritalStatus, 
+           NumCompaniesWorked, Over18, DistanceFromHome) %>%
     ggpairs() 
 
 train_raw_tbl %>%
-    select(Attrition, Age, Gender, MaritalStatus, NumCompaniesWorked, Over18, DistanceFromHome) %>%
+    select(Attrition, Age, Gender, MaritalStatus, 
+           NumCompaniesWorked, Over18, DistanceFromHome) %>%
     ggpairs(aes(color = Attrition), lower = "blank", legend = 1,
             diag  = list(continuous = wrap("densityDiag", alpha = 0.5))) +
     theme(legend.position = "bottom")
 
 
 data <- train_raw_tbl %>%
-    select(Attrition, Age, Gender, MaritalStatus, NumCompaniesWorked, Over18, DistanceFromHome)
+    select(Attrition, Age, Gender, MaritalStatus, 
+           NumCompaniesWorked, Over18, DistanceFromHome)
 
 plot_ggpairs <- function(data, color = NULL, density_alpha = 0.5) {
     
@@ -98,7 +101,8 @@ plot_ggpairs <- function(data, color = NULL, density_alpha = 0.5) {
 }
 
 train_raw_tbl %>%
-    select(Attrition, Age, Gender, MaritalStatus, NumCompaniesWorked, Over18, DistanceFromHome) %>%
+    select(Attrition, Age, Gender, MaritalStatus, 
+           NumCompaniesWorked, Over18, DistanceFromHome) %>%
     plot_ggpairs(color = Attrition)
 
 
@@ -106,37 +110,45 @@ train_raw_tbl %>%
 
 #   1. Descriptive features: age, gender, marital status 
 train_raw_tbl %>%
-    select(Attrition, Age, Gender, MaritalStatus, NumCompaniesWorked, Over18, DistanceFromHome) %>%
+    select(Attrition, Age, Gender, MaritalStatus, 
+           NumCompaniesWorked, Over18, DistanceFromHome) %>%
     plot_ggpairs(Attrition)
 
 #   2. Employment features: department, job role, job level
 train_raw_tbl %>%
-    select(Attrition, contains("employee"), contains("department"), contains("job")) %>%
+    select(Attrition, contains("employee"), 
+           contains("department"), contains("job")) %>%
     plot_ggpairs(Attrition) 
 
 #   3. Compensation features: HourlyRate, MonthlyIncome, StockOptionLevel 
 train_raw_tbl %>%
-    select(Attrition, contains("income"), contains("rate"), contains("salary"), contains("stock")) %>%
+    select(Attrition, contains("income"), 
+           contains("rate"), contains("salary"), 
+           contains("stock")) %>%
     plot_ggpairs(Attrition)
 
 #   4. Survey Results: Satisfaction level, WorkLifeBalance 
 train_raw_tbl %>%
-    select(Attrition, contains("satisfaction"), contains("life")) %>%
+    select(Attrition, contains("satisfaction"), 
+           contains("life")) %>%
     plot_ggpairs(Attrition)
 
 #   5. Performance Data: Job Involvment, Performance Rating
 train_raw_tbl %>%
-    select(Attrition, contains("performance"), contains("involvement")) %>%
+    select(Attrition, contains("performance"), 
+           contains("involvement")) %>%
     plot_ggpairs(Attrition)
 
 #   6. Work-Life Features 
 train_raw_tbl %>%
-    select(Attrition, contains("overtime"), contains("travel")) %>%
+    select(Attrition, contains("overtime"), 
+           contains("travel")) %>%
     plot_ggpairs(Attrition)
 
 #   7. Training and Education 
 train_raw_tbl %>%
-    select(Attrition, contains("training"), contains("education")) %>%
+    select(Attrition, contains("training"), 
+           contains("education")) %>%
     plot_ggpairs(Attrition)
 
 #   8. Time-Based Features: Years at company, years in current role
