@@ -298,75 +298,66 @@ dept_job_role_tbl %>%
        y = "", x = "Cost of Attrition") +
   theme(legend.position = "none")
 
-
-
-plot_attrition <- function(data, ..., .value, 
-                           fct_reorder = TRUE, 
+plot_attrition <- function(data, ..., .value = cost,
+                           fct_reorder = TRUE,
                            fct_rev = FALSE, 
-                           include_lbl = TRUE, 
-                           color = palette_light()[[1]], 
+                           include_lbl = TRUE,
+                           color = palette_light()[[1]],
                            units = c("0", "K", "M")) {
   
-  
-  # Inputs
+  # Inputs 
   
   group_vars_expr <- quos(...)
-  if (length(group_vars_expr) == 0) 
-    group_vars_expr <- quos(rlang::sym(colnames(data)[[1]]))
+  if (length(group_vars_expr) == 0)
+    group_bars_expr <- quos(rlang::sym(colnames(data)[[1]]))
   
   value_expr <- enquo(.value)
-  value_name <- quo_name(value_expr)
+  # value_name <- quo_name(value_expr) 
+  # would normally pass to aes_string(), but ggplot2 v3+ supports tidy evaluation!
   
   units_val <- switch(units[[1]],
                       "M" = 1e6,
                       "K" = 1e3,
-                      "0"  = 1)
+                      "0" = 1)
   if (units[[1]] == "0") units <- ""
   
-  
   # Data Manipulation
+  
+  # Make a function factory -- function that produces a function
   usd <- scales::dollar_format(prefix = "$", largest_with_cents = 1e3)
   
-  data_manipulated <- data %>%
+  data_manipulated <-
+    data %>%
     mutate(name = str_c(!!! group_vars_expr, sep = ": ") %>% as_factor()) %>% 
-    mutate(value_text = str_c(usd(!! value_expr / units_val), 
-                              units[[1]], sep = ""))
-  
+    mutate(value_text = str_c(usd(!! value_expr / units_val), units[[1]]))
   
   if (fct_reorder) {
-    data_manipulated <- data_manipulated %>%
-      mutate(name = forcats::fct_reorder(name, !! value_expr)) %>%
-      arrange(name)
+    data_manipulated <- data_manipulated %>% mutate(name = fct_reorder(name, (!! value_expr))) %>% arrange(name)   
   }
-  
   if (fct_rev) {
-    data_manipulated <- data_manipulated %>%
-      mutate(name = forcats::fct_rev(name)) %>%
-      arrange(name)
+    data_manipulated <- data_manipulated %>% mutate(name = fct_rev(name)) %>% arrange(name)   
   }
   
   # Visualization
   
-  g <- data_manipulated %>%
-    ggplot(aes_string(x = value_name, y = "name")) +
+  g <- data_manipulated %>% 
+    ggplot(aes(x = !! value_expr, y = name))  +
     geom_segment(aes(xend = 0, yend = name), color = color) +
-    geom_point(aes_string(size = value_name), color = color) +
+    geom_point(aes(size = !! value_expr), color = color) +
     scale_x_continuous(labels = scales::dollar) +
     theme_tq() +
     scale_size(range = c(3, 5)) +
     theme(legend.position = "none")
   
-  
   if (include_lbl) {
     g <- g +
-      geom_label(aes_string(label = "value_text", size = value_name), 
-                 hjust = "inward", color = color) 
+      geom_label(aes(label = value_text, size = !! value_expr),
+                 hjust = "inward", color = color)
   }
   
   return(g)
   
 }
-
 
 dept_job_role_tbl %>% 
   
