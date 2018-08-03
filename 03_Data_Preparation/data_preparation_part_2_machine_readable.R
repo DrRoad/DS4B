@@ -298,36 +298,36 @@ train_tbl %>%
 #   2. Employment features: department, job role, job level
 train_tbl %>%
     select(Attrition_Yes, contains("employee"), contains("department"), contains("job")) %>%
-    plot_cor(target = Attrition_Yes, fct_reorder = F, fct_rev = F) 
+    plot_cor(target = Attrition_Yes, fct_reorder = T, fct_rev = T) 
 
 #   3. Compensation features: HourlyRate, MonthlyIncome, StockOptionLevel 
 train_tbl %>%
     select(Attrition_Yes, contains("income"), contains("rate"), contains("salary"), contains("stock")) %>%
-    plot_cor(target = Attrition_Yes, fct_reorder = F, fct_rev = F)
+    plot_cor(target = Attrition_Yes, fct_reorder = T, fct_rev = T)
 
 #   4. Survey Results: Satisfaction level, WorkLifeBalance 
 train_tbl %>%
     select(Attrition_Yes, contains("satisfaction"), contains("life")) %>%
-    plot_cor(target = Attrition_Yes, fct_reorder = F, fct_rev = F)
+    plot_cor(target = Attrition_Yes, fct_reorder = T, fct_rev = T)
 
 #   5. Performance Data: Job Involvment, Performance Rating
 train_tbl %>%
     select(Attrition_Yes, contains("performance"), contains("involvement")) %>%
-    plot_cor(target = Attrition_Yes, fct_reorder = F, fct_rev = F)
+    plot_cor(target = Attrition_Yes, fct_reorder = T, fct_rev = T)
 
 #   6. Work-Life Features 
 train_tbl %>%
     select(Attrition_Yes, contains("overtime"), contains("travel")) %>%
-    plot_cor(target = Attrition_Yes, fct_reorder = F, fct_rev = F)
+    plot_cor(target = Attrition_Yes, fct_reorder = T, fct_rev = T)
 
 #   7. Training and Education 
 train_tbl %>%
     select(Attrition_Yes, contains("training"), contains("education")) %>%
-    plot_cor(target = Attrition_Yes, fct_reorder = F, fct_rev = F)
+    plot_cor(target = Attrition_Yes, fct_reorder = T, fct_rev = T)
 
 #   8. Time-Based Features: Years at company, years in current role
 train_tbl %>%
     select(Attrition_Yes, contains("years")) %>%
-    plot_cor(target = Attrition_Yes, fct_reorder = F, fct_rev = F)
+    plot_cor(target = Attrition_Yes, fct_reorder = T, fct_rev = T)
 
 
