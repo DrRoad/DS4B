@@ -9,11 +9,8 @@ library(recipes)
 library(readxl)
 library(tidyverse)
 library(tidyquant)
-library(stringr)
-library(forcats)
 library(cowplot)
 library(fs)
-library(glue)
 
 # Load Data
 path_train            <- "00_Data/telco_train.xlsx"
@@ -78,6 +75,22 @@ h2o.getModel("GLM_grid_0_AutoML_20180503_035824_model_0")
 
 h2o.getModel("DeepLearning_0_AutoML_20180503_035824")
 
+# Extract model name by position
+
+extract_h2o_model_name_by_position <- function(h2o_leaderboard, 
+                                               pos = 1, 
+                                               verbose = T){
+  
+  model_name <- h2o_leaderboard %>% 
+    as.tibble() %>% 
+    slice(pos) %>% 
+    pull(model_id)
+  
+  if(verbose) message(model_name)
+  
+  model_name
+  
+}
 
 # Saving & Loading
 
@@ -543,7 +556,7 @@ plot_h2o_performance <- function(h2o_leaderboard, newdata, order_by = c("auc", "
                    colour = palette_light()[[1]])
     
     p_subtitle <- ggdraw() + 
-        draw_label(glue("Ordered by {toupper(order_by)}"), size = 10,  
+        draw_label(str_glue("Ordered by {toupper(order_by)}"), size = 10,  
                    colour = palette_light()[[1]])
     
     ret <- plot_grid(p_title, p_subtitle, p, p_legend, 
