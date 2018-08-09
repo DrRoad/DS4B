@@ -94,23 +94,23 @@ extract_h2o_model_name_by_position <- function(h2o_leaderboard,
 
 # Saving & Loading
 
-h2o.getModel("StackedEnsemble_BestOfFamily_0_AutoML_20180503_035824") %>%
+h2o.getModel("StackedEnsemble_AllModels_0_AutoML_20180809_135856") %>%
     h2o.saveModel(path = "04_Modeling/h2o_models/")
 
-h2o.getModel("GLM_grid_0_AutoML_20180503_035824_model_0") %>%
+h2o.getModel("GLM_grid_0_AutoML_20180809_135856_model_0") %>%
     h2o.saveModel(path = "04_Modeling/h2o_models/")
 
-h2o.getModel("DeepLearning_0_AutoML_20180503_035824") %>%
+h2o.getModel("DeepLearning_0_AutoML_20180809_135856") %>%
     h2o.saveModel(path = "04_Modeling/h2o_models/")
 
-deeplearning_h2o <- h2o.loadModel("04_Modeling/h2o_models/DeepLearning_0_AutoML_20180503_035824")
+deeplearning_h2o <- h2o.loadModel("04_Modeling/h2o_models/DeepLearning_0_AutoML_20180809_135856")
 
-glm_h2o <- h2o.loadModel("04_Modeling/h2o_models/GLM_grid_0_AutoML_20180503_035824_model_0")
+glm_h2o <- h2o.loadModel("04_Modeling/h2o_models/GLM_grid_0_AutoML_20180809_135856_model_0")
 
 
 # Making Predictions
 
-stacked_ensemble_h2o <- h2o.loadModel("04_Modeling/h2o_models/StackedEnsemble_BestOfFamily_0_AutoML_20180503_035824")
+stacked_ensemble_h2o <- h2o.loadModel("04_Modeling/h2o_models/StackedEnsemble_AllModels_0_AutoML_20180809_135856")
 
 stacked_ensemble_h2o
 
