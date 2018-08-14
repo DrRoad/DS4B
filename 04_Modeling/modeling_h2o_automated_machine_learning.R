@@ -213,11 +213,11 @@ automl_models_h2o@leaderboard %>%
 
 # 4. Assessing Performance ----
 
-stacked_ensemble_h2o <- h2o.loadModel("04_Modeling/h2o_models/StackedEnsemble_BestOfFamily_0_AutoML_20180503_035824")
+stacked_ensemble_h2o <- h2o.loadModel("04_Modeling/h2o_models/StackedEnsemble_AllModels_0_AutoML_20180809_135856")
 
-deeplearning_h2o <- h2o.loadModel("04_Modeling/h2o_models/DeepLearning_0_AutoML_20180503_035824")
+deeplearning_h2o <- h2o.loadModel("04_Modeling/h2o_models/DeepLearning_0_AutoML_20180809_135856")
 
-glm_h2o <- h2o.loadModel("04_Modeling/h2o_models/GLM_grid_0_AutoML_20180503_035824_model_0")
+glm_h2o <- h2o.loadModel("04_Modeling/h2o_models/GLM_grid_0_AutoML_20180809_135856_model_0")
 
 
 
@@ -230,7 +230,8 @@ performance_h2o@metrics
 
 # Classifier Summary Metrics
 
-h2o.auc(performance_h2o, train = T, valid = T, xval = T)
+h2o.auc(performance_h2o)
+h2o.auc(stacked_ensemble_h2o, train = T, valid = T, xval = T)
 h2o.giniCoef(performance_h2o)
 h2o.logloss(performance_h2o)
 
