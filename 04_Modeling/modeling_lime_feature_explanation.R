@@ -40,7 +40,7 @@ test_tbl  <- bake(recipe_obj, newdata = test_readable_tbl)
 
 h2o.init()
 
-automl_leader <- h2o.loadModel("04_Modeling/h2o_models/StackedEnsemble_BestOfFamily_0_AutoML_20180503_035824")
+automl_leader <- h2o.loadModel("04_Modeling/h2o_models/StackedEnsemble_AllModels_0_AutoML_20180809_135856")
 
 automl_leader
 
@@ -192,7 +192,7 @@ plot_features_tq <- function(explanation, ncol) {
 }
 
 explanation %>%
-  filter(case %in% 1) %>%
+  filter(case %in% 1:6) %>%
   plot_features_tq(ncol = 2)
 
 explanation %>%
