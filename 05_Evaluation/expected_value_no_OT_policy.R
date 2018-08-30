@@ -41,8 +41,7 @@ test_tbl  <- bake(recipe_obj, newdata = test_readable_tbl)
 
 h2o.init()
 
-# Replace this with your model!!! (or rerun h2o.automl)
-automl_leader <- h2o.loadModel("04_Modeling/h2o_models/StackedEnsemble_BestOfFamily_0_AutoML_20180503_035824")
+automl_leader <- h2o.loadModel("04_Modeling/h2o_models/StackedEnsemble_AllModels_0_AutoML_20180809_135856")
 
 automl_leader
 
@@ -64,20 +63,15 @@ predictions_with_OT_tbl
 
 
 ev_with_OT_tbl <- predictions_with_OT_tbl %>%
-    mutate(
-        attrition_cost = calculate_attrition_cost(
-            n = 1,
-            salary = MonthlyIncome * 12,
-            net_revenue_per_employee = 250000
-        )
-    ) %>%
-    mutate(
-        cost_of_policy_change = 0 
-    ) %>%
-    mutate(
-        expected_attrition_cost = 
-            Yes * (attrition_cost + cost_of_policy_change) +
-            No *  (cost_of_policy_change)
+  mutate(
+    attrition_cost = calculate_attrition_cost(
+      n = 1,
+      salary = MonthlyIncome * 12,
+      net_revenue_per_employee = 250000),
+    cost_of_policy_change = 0,
+    expected_attrition_cost = 
+      Yes * (attrition_cost + cost_of_policy_change) +
+      No *  (cost_of_policy_change)
     )
 
 ev_with_OT_tbl
@@ -116,24 +110,18 @@ predictions_without_OT_tbl
 avg_overtime_pct <- 0.10
 
 ev_without_OT_tbl <- predictions_without_OT_tbl %>%
-    mutate(
-        attrition_cost = calculate_attrition_cost(
-            n = 1,
-            salary = MonthlyIncome * 12,
-            net_revenue_per_employee = 250000
-        )
-    ) %>%
-    mutate(
-        cost_of_policy_change = case_when(
-            OverTime_0 == "Yes" & OverTime_1 == "No" ~ avg_overtime_pct * attrition_cost,
-            TRUE ~ 0
-        ) 
-    ) %>%
-    mutate(
-        expected_attrition_cost = 
-            Yes * (attrition_cost + cost_of_policy_change) +
-            No *  (cost_of_policy_change)
-    )
+  mutate(
+    attrition_cost = calculate_attrition_cost(
+      n = 1,
+      salary = MonthlyIncome * 12,
+      net_revenue_per_employee = 250000),
+    cost_of_policy_change = case_when(
+      OverTime_0 == "Yes" & OverTime_1 == "No" ~ avg_overtime_pct * attrition_cost,
+      TRUE ~ 0), 
+    expected_attrition_cost = 
+      Yes * (attrition_cost + cost_of_policy_change) +
+      No *  (cost_of_policy_change)
+  )
 
 ev_without_OT_tbl
 
